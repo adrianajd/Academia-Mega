@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" constant="Adriana Saamay Juarez Dominguez">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeApi</title>
+    <!--#f3f4f6-->
+    <style>
+        body{
+            background-color: #edf1f8e3;
+            padding: 20px;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h1{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #pelis-container{
+            display: grid;
+            grid-template-columns: 200px 200px 200px ;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        #actores-container{
+            display: grid;
+            grid-template-columns: 200px 200px 200px ;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .card{
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+        }
+
+        .card img{
+            max-width: 100px;
+        }
+
+        .card h2{
+            font-size: 10px;
+            margin: 18px;
+            text-transform: capitalize;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>Lista de Peliculas de Harry Potter</h1>
+    <div id="pelis-container"></div>
+    <h1>Actores principales de la saga</h1>
+    <div id="actores-container"></div>
+
+    <script >
+        async function obtenerPeliculas() {
+            
+            const pelisContainer = document.getElementById("pelis-container");
+          
+            const requestPelis = {
+                method: "GET",
+                redirect: "follow"
+                };
+
+            try{
+                    const respuesta = await fetch(`https://potterhead-api.vercel.app/api/movies`)
+                    console.log(respuesta);
+                    const data = await respuesta.json();
+                    console.log(data);
+
+                    for(let i= 0; i<= 24; i++) {
+                    const card = document.createElement("div");
+                    card.className ="card";
+                    card.innerHTML=`
+                            <img src="${data[i].poster}" alt="${data[i].title}">
+                            <h2>Pelicula: ${data[i].title}</h2>
+                            <h2>Fecha de estreno:   ${data[i].release_date}</h2>
+                            <h2>Recaudado:  ${data[i].box_office}</h2>
+                            `;
+                            pelisContainer.appendChild(card);
+                    }
+                }catch(error){
+                    console.log("Erorr al obtener el Pokemon:", error);
+                }
+        }
+
+        function obtenerPokemones(){
+            const container = document.getElementById("actores-container");
+
+                const requestActores = {
+                method: "GET",
+                redirect: "follow"
+                };
+
+                fetch("https://harry-potter-api-3a23c827ee69.herokuapp.com/api/characters", requestActores)
+                .then((response) => response.json())
+                .then((result) => {
+                    // console.log(`Respuesta de api: ${result}`)
+                    // console.log(`Respuesta de api: ${result.length}`)
+                    
+
+                    for(let i= 0; i<= 24; i++) {
+                        const card = document.createElement("div");
+                        card.className ="card";
+                        card.innerHTML=`
+                            <img src="${result[i].image}" alt="${result[i].name}">
+                            <h2>${result[i].name}</h2>
+                            <h2>Casa:   ${result[i].house}</h2>
+                            <h2>Actor:  ${result[i].actor}</h2>
+                            `;
+                            container.appendChild(card);
+                    }
+                }
+                )
+                .catch((error) => console.error(error));
+
+                
+                // for(let i =1; i<=5; i++){
+                // try{
+                //     const respuesta = await fetch(`https://potterhead-api.vercel.app/api/movies/1`)
+                //     console.log(respuesta);
+                //     const data = await respuesta.json();
+                //     console.log(data);
+
+                //     const card = document.createElement("div");
+                //     card.className ="card";
+                //     card.innerHTML=`
+                //         <img src="${data.sprites.front_default}" alt="${data.name}">
+                //         <h2>${data.name}</h2>
+                //         `;
+                //         container.appendChild(card);
+                // }catch(error){
+                //     console.log("Erorr al obtener el Pokemon:", error);
+                // }
+            // }
+          
+            }
+
+
+        obtenerPeliculas();
+        obtenerPokemones();
+            // console.log("Inicio");
+            // setTimeout(()=>{
+            //     console.log("Esto se ejecutara después de 5 segundos");
+            // }, 5000)
+            // console.log("Fin");
+
+
+            // //Promesa
+            // console.log("Bienvenidos a la pagina web");
+            // console.log("Primera tarea");
+
+            // const promesa = new Promise((resolve, reject)=>{
+            //     setTimeout(()=>{
+            //         let exito = true;
+            //         if(exito) resolve("Promesa resuelta es...")
+            //         else reject("Promesa Rechazada");
+            //     }, 5000)
+            // })
+
+            // console.log("Tercera tarea");
+            // console.log("Cuartatarea");
+            // promesa.then(resultado => console.log(resultado));
+
+
+            // promesa//.then(resultado => console.log(resultado));
+            //     .then(resultado => console.log(resultado))
+            //     .catch(error => console.log(error))
+            //     .finally(()=> console.log("Prmesa Terminada"))
+
+
+            // async function obtenerDatos(){
+            //     try{
+            //         console.log("Obtener datos...")
+            //         let respuesta = await new Promise(resolve =>
+            //             setTimeout(()=>resolve("Datos recibidos"),400))
+            //             console.log(respuesta)
+            //     }catch(error){
+            //         console.error("Error:", error)
+            //     }
+            // }
+    </script>
+</body>
+</html>
